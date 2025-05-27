@@ -10,7 +10,9 @@ public class Main {
 
 	static String[] listOfTasks = new String[100];
 	static int lineNum = 0;
-	public static final String FILE_PATH = "/home/zoxlemonade/java_practice/To-Do-List/toDoList.txt";
+	public static final String CURRENT_DIR = System.getProperty("user.dir");
+	public static final File file = new File(CURRENT_DIR, "task.txt");
+	public static final String FILE_PATH = file.getPath(); 
 
 	// loads file and data. also creates the file if the file is not detected.
 	static void loadFAD() {
