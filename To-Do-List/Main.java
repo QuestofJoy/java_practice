@@ -15,7 +15,7 @@ public class Main {
 	public static final String FILE_PATH = file.getPath(); 
 
 	// loads file and data. also creates the file if the file is not detected.
-	static void loadFAD() {
+	static void loadFile() {
 		try {
 			File listOfTask = new File(FILE_PATH);
 			if (listOfTask.createNewFile()) {
@@ -27,11 +27,15 @@ public class Main {
 			System.out.println("An error occured");
 			e.printStackTrace();
 		}
+	}
+
+	static void loadTask() {
 
 		try (
-				FileReader rof = new FileReader(FILE_PATH);
-				BufferedReader brof = new BufferedReader(rof)) {
+			FileReader rof = new FileReader(FILE_PATH);
+			BufferedReader brof = new BufferedReader(rof)) {
 			String line;
+			lineNum=0;
 
 			while ((line = brof.readLine()) != null) {
 				listOfTasks[lineNum] = (lineNum + 1) + ". " + line + "\n";
@@ -56,6 +60,7 @@ public class Main {
 	}
 
 	static void readFromFile(String FILE_PATH) {
+		loadTask();
 		System.out.println("\n\nYour List of Tasks");
 		System.out.println("===============");
 		for (int i = 0; i < lineNum; i++) {
@@ -64,19 +69,16 @@ public class Main {
 		System.out.println("===============\n\n");
 	}
 
-	// static void deleteTask ()
-	// {
-	// try (
-	// FileReader rof = new FileReader();
-	//
-	// ) catch (IOException) {
-	// System.err.println("Error reading file: " + e.getMessage());
-	// }
-	// }
+	static void deleteTask ()
+	{
+		loadTask();
+
+	}
 
 			public static void main(String[] args) {
 
-		loadFAD();
+		loadFile();
+		loadTask();
 
 		Scanner scan = new Scanner(System.in);
 		boolean running = true;
@@ -99,6 +101,10 @@ public class Main {
 					String task = scan.nextLine();
 					writeToFile(task);
 					System.out.printf("New task added!!!\n\n");
+					break;
+				case 2:
+					System.out.printf("Enter the task you want to delete: ");
+					deleteTask();
 					break;
 				case 3:
 					readFromFile(FILE_PATH);
