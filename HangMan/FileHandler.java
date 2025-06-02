@@ -27,7 +27,7 @@ public class FileHandler {
   }
 
   public void makePlayerProfileFolder() {
-    File dir = new File(PLAYERS_DIR_NAME);
+    File dir = new File(PLAYERS_FOLDER);
     boolean created = dir.mkdir();
     if (created) {
       System.out.println("Folder created");
