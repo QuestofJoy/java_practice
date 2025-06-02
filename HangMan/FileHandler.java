@@ -12,7 +12,7 @@ public class FileHandler {
   public static final String DIR_PATH = CURRENT_PATH + File.separator + DIR_NAME;
   public static final String WORD_LIST_PATH = DIR_PATH + File.separator + "words.txt";
   public static final String HINT_LIST_PATH = DIR_PATH + File.separator + "hints.txt";
-  public static final String PLAYERS_FOLER = DIR_PATH + File.separator + PLAYERS_DIR_NAME;
+  public static final String PLAYERS_FOLDER = DIR_PATH + File.separator + PLAYERS_DIR_NAME;
 
   public void makeMainFolder() {
     File dir = new File(DIR_PATH);
