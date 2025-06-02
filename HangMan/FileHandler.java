@@ -7,7 +7,7 @@ public class FileHandler {
   // configurable file path for OS compatibality
   public static final String CURRENT_PATH = Paths.get("").toAbsolutePath().toString();
   public static final String DIR_NAME = "data";
-  public static final String PLAYERS_DIR_NAME = "data";
+  public static final String PLAYERS_DIR_NAME = "Players";
 
   public static final String DIR_PATH = CURRENT_PATH + File.separator + DIR_NAME;
   public static final String WORD_LIST_PATH = DIR_PATH + File.separator + "words.txt";
