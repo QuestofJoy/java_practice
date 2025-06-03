@@ -3,16 +3,16 @@ public class GameInitialize {
 
   public GameInitialize() {
     // initialize words and hints data
-    gameData.wordsAdd();
-    gameData.hintsAdd();
+    gameData.wordsLoad();
+    gameData.hintsLoad();
 
     // create a folder(skips if there is already one)
     // these might be unnecessary stuffs for hangman game but hey
     // WE ARE HERE TO LEARN
-    FileHandler loader = new FileHandler();
-    loader.makeFolder();
-    loader.makeWordList();
-    loader.makeHintList();
+    FileFolderManager loader = new FileFolderManager();
+    loader.makeFolder(FileFolderManager.CURRENT_PATH, FileFolderManager.DIR_NAME);
+    loader.makeFile(FileFolderManager.DIR_PATH, FileFolderManager.WORDS_FILE_NAME);
+    loader.makeFile(FileFolderManager.DIR_PATH, FileFolderManager.HINTS_FILE_NAME);
 
     // writes to File as the variable explains.
     // the method write and read will always run which is not necessary
@@ -20,11 +20,9 @@ public class GameInitialize {
     // that work is for the future me
     // the current program does not check if
     // list of hints and word is equal
+    loader.writeToFile(FileFolderManager.WORDS_FILE_PATH, GameData.WORDS);
+    loader.writeToFile(FileFolderManager.HINTS_FILE_PATH, GameData.HINTS);
 
-    gameData.writeToFile(FileHandler.wordListPath, GameData.words);
-    gameData.writeToFile(FileHandler.hintListPath, GameData.hints);
-    gameData.readFromFile(FileHandler.wordListPath);
-    gameData.readFromFile(FileHandler.hintListPath);
   }
 
 }
