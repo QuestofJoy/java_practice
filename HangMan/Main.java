@@ -1,6 +1,11 @@
-public class Main {
+import java.util.Scanner;
 
+class Main {
   public static void main(String[] args) {
-    GameInitialize gi = new GameInitialize();
+    Scanner scan = new Scanner(System.in);
+    InitializeData initializeData = new InitializeData();
+    ClearScreen.clearScreen();
+    GameLogic gl = new GameLogic();
+    gl.gameRun(scan);
   }
 }
