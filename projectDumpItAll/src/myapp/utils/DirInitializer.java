@@ -9,16 +9,14 @@ import java.io.FileReader;
 import java.io.BufferedReader;
 
 public class DirInitializer {
-  private static final String DIR_CURRENT = Paths.get("").toAbsolutePath().toString();
-
-  public static final String DIR_USER_DATA = DIR_CURRENT + File.separator + "userData";
+  private static final String DIR_CURRENT_PATH = Paths.get("").toAbsolutePath().toString();
+  public static final String DIR_USER_DATA_PATH = DIR_CURRENT_PATH + File.separator + "userData";
 
   public static void UserDirInitializer() {
-    File file = new File(DIR_USER_DATA);
+    File file = new File(DIR_USER_DATA_PATH);
     boolean created = false;
     if (file.exists()) {
       created = true;
-      System.out.println("file created");
     }
 
     if (!created) {
@@ -31,14 +29,28 @@ public class DirInitializer {
 
   }
 
+  // this was made for auto login
+  // public static boolean initializeUserProfile() {
+  // boolean loggedIn = false;
+  // File userData = new File(DIR_USER_DATA_PATH);
+  //
+  // String names = userData.listFiles().toString();
+  // System.out.println(names);
+  // return loggedIn;
+  // }
+  //
+
   public static void makeUserProfile(String userName, String userPassword) {
     String userProfileFileName = userName + ".txt";
 
-    File userProfile = new File(DIR_USER_DATA + File.separator + userProfileFileName);
+    File userProfile = new File(DIR_USER_DATA_PATH + File.separator + userProfileFileName);
 
+    // this boolean is to check if the user exists before creating a new user
+    boolean userExists = false;
     try {
       if (!userProfile.createNewFile()) {
         System.out.println("user exists!!");
+        userExists = true;
       } else {
         System.out.println("user created");
       }
@@ -47,20 +59,21 @@ public class DirInitializer {
       System.out.println("user could not be created");
     }
 
-    try (FileWriter fw = new FileWriter(userProfile, true)) {
-      fw.write("userName=");
-      fw.write(userName + System.lineSeparator());
-      fw.write("userPassword=");
-      fw.write(userPassword + System.lineSeparator());
+    // if the user did not orignally exist write to the newly created userProfile
+    if (!userExists) {
+      try (FileWriter fw = new FileWriter(userProfile, true)) {
+        fw.write("userName=" + userName + System.lineSeparator());
+        fw.write("userPassword=" + userPassword + System.lineSeparator());
 
-    } catch (Exception e) {
-      e.printStackTrace();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 
   public static void loadUserProfile(String userName, String userPassword) {
     String userProfileFileName = userName + ".txt";
-    File userProfile = new File(DIR_USER_DATA + File.separator + userProfileFileName);
+    File userProfile = new File(DIR_USER_DATA_PATH + File.separator + userProfileFileName);
 
     List<String> userInfo = new ArrayList<>();
 
@@ -87,10 +100,6 @@ public class DirInitializer {
     } else {
       System.out.println("invalid password");
     }
-
-  }
-
-  public static void userCredentialChecker(String userName, String userPassword) {
 
   }
 

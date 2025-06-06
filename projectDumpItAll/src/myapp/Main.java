@@ -14,15 +14,16 @@ public class Main {
     // let user choose to make new user or sign in to existing one
 
     // check for existing user;
-    // user should be on a single text file inside data/user/
+    // user should be on a single text file inside userData/
     int userChoice = TUIUtils.loginOrSignupScreen(scan);
-
     scan.nextLine();
+
     TUIUtils.clearScreen();
-    System.out.println("please refrain from using white-space \" \"");
-    System.out.printf("enter username: ");
+    if (userChoice == 1)
+      System.out.println("Please refrain from using white-space \" \" or any special keywords\n");
+    System.out.printf("Username: ");
     String userName = scan.nextLine();
-    System.out.printf("enter password: ");
+    System.out.printf("Password: ");
     String userPassword = scan.nextLine();
 
     // the code commented below is useless as of now
@@ -34,6 +35,8 @@ public class Main {
       default -> System.out.println("something along the line has gone wrong and i dont know what it is");
       // cauz there is nothing that could break
     }
+
+    // DirInitializer.initializeUserProfile();
     // close scanner at before exiting main program
     scan.close();
   }

@@ -1,2 +1,2 @@
-Name=lmao
+userName=lmao
 userPassword=omal
