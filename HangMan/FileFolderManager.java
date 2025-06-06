@@ -14,14 +14,10 @@ public class FileFolderManager {
   public static final String CURRENT_PATH = Paths.get("").toAbsolutePath().toString();
   public static final String ROOT_DIR_NAME = "data";
   public static final String PLAYER_DATA_FILE_NAME = "playerInfo.txt";
-  public static final String WORDS_FILE_NAME = "words.txt";
-  public static final String HINTS_FILE_NAME = "hints.txt";
 
   public static final String ROOT_DIR_PATH = CURRENT_PATH + File.separator + ROOT_DIR_NAME;
 
   public static final String PLAYER_DATA_FILE_PATH = ROOT_DIR_PATH + File.separator + PLAYER_DATA_FILE_NAME;
-  public static final String WORDS_FILE_PATH = ROOT_DIR_PATH + File.separator + WORDS_FILE_NAME;
-  public static final String HINTS_FILE_PATH = ROOT_DIR_PATH + File.separator + HINTS_FILE_NAME;
 
   public void makeFolder(String dirPath, String dirName) {
     File dir = new File(dirPath + File.separator + dirName);

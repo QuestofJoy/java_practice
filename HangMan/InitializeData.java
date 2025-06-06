@@ -23,8 +23,6 @@ public class InitializeData {
     ffm.makeFolder(FileFolderManager.CURRENT_PATH, FileFolderManager.ROOT_DIR_NAME);
 
     ffm.makeFile(FileFolderManager.ROOT_DIR_PATH, FileFolderManager.PLAYER_DATA_FILE_NAME);
-    ffm.makeFile(FileFolderManager.ROOT_DIR_PATH, FileFolderManager.WORDS_FILE_NAME);
-    ffm.makeFile(FileFolderManager.ROOT_DIR_PATH, FileFolderManager.HINTS_FILE_NAME);
   }
 
   public void writeInitialData() {
@@ -35,7 +33,6 @@ public class InitializeData {
     // that work is for the future me
     // the current program does not check if
     // list of hints and word is equal
-    ffm.writeToFile(FileFolderManager.WORDS_FILE_PATH, GameData.getWords());
     ffm.writeToFile(FileFolderManager.PLAYER_DATA_FILE_PATH, GameData.getHints());
   }
 

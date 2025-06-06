@@ -6,6 +6,7 @@ class Main {
     InitializeData initializeData = new InitializeData();
     ClearScreen.clearScreen();
     GameLogic gl = new GameLogic();
-    gl.gameRun(scan);
+    gl.runGame();
+    scan.close();
   }
 }

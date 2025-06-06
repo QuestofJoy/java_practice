@@ -4,7 +4,6 @@ import java.util.Random;
 public class GameLogic {
   private String playerWord;
   private String playerHint;
-  private int chance;
 
   Menu menu = new Menu();
 
@@ -35,6 +34,7 @@ public class GameLogic {
     boolean running = true;
 
     while (running) {
+      Scanner scan = new Scanner(System.in);
       menu.head();
       System.out.println("Hint for your word is: " + playerHint);
       System.out.println(blanks);
@@ -42,6 +42,7 @@ public class GameLogic {
       char userChar = scan.next().charAt(0);
       blanks = wordChecker(playerWord, userChar, blanks);
       ClearScreen.clearScreen(350);
+      scan.close();
     }
   }
 

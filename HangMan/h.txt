@@ -1,0 +1,286 @@
+public class ClearScreen {
+  public static void clearScreen(int seconds) {
+    try {
+      Thread.sleep(seconds);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    System.out.print("\033[H\033[2J");
+    System.out.flush();
+  }
+
+  public static void clearScreen() {
+    clearScreen(0);
+  }
+}
+import java.nio.file.Paths;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
+import java.io.BufferedWriter;
+// import java.io.FileReader;
+// import java.io.BufferedReader;
+// import java.io.IOException;
+import java.util.List;
+
+public class FileFolderManager {
+
+  // configurable file path for OS compatibality
+  public static final String CURRENT_PATH = Paths.get("").toAbsolutePath().toString();
+  public static final String ROOT_DIR_NAME = "data";
+  public static final String PLAYER_DATA_FILE_NAME = "playerInfo.txt";
+  public static final String WORDS_FILE_NAME = "words.txt";
+  public static final String HINTS_FILE_NAME = "hints.txt";
+
+  public static final String ROOT_DIR_PATH = CURRENT_PATH + File.separator + ROOT_DIR_NAME;
+
+  public static final String PLAYER_DATA_FILE_PATH = ROOT_DIR_PATH + File.separator + PLAYER_DATA_FILE_NAME;
+  public static final String WORDS_FILE_PATH = ROOT_DIR_PATH + File.separator + WORDS_FILE_NAME;
+  public static final String HINTS_FILE_PATH = ROOT_DIR_PATH + File.separator + HINTS_FILE_NAME;
+
+  public void makeFolder(String dirPath, String dirName) {
+    File dir = new File(dirPath + File.separator + dirName);
+    boolean created = dir.mkdir();
+    if (created) {
+      System.out.println("Folder " + dirName + " created");
+    } else if (dir.exists()) {
+      System.out.println("Folder " + dirName + " exists");
+    } else {
+      System.out.println("error: Folder " + dirName + " could not be created.");
+    }
+  }
+
+  public void makeFile(String filePath, String fileName) {
+    try {
+      File wordList = new File(filePath + File.separator + fileName);
+      if (wordList.createNewFile()) {
+        System.out.println(fileName + " created");
+      } else {
+        System.out.println(fileName + " already exists! Skipping making" + fileName + "....");
+      }
+    } catch (IOException e) {
+      System.out.println("error: " + e.getMessage());
+    }
+  }
+
+  public void writeToFile(String path, List<String> contentList) {
+    try (
+        FileWriter fWrite = new FileWriter(path);
+        BufferedWriter bfWrite = new BufferedWriter(fWrite);) {
+      for (String line : contentList) {
+        bfWrite.write(line);
+        bfWrite.newLine();
+      }
+    } catch (IOException e) {
+      System.out.println("error: " + e.getMessage());
+    }
+
+  }
+  // public void words() {
+  // try {
+  //
+  // }
+  // }
+
+  // public void readFromFile(String path) {
+  // try (
+  // FileReader fRead = new FileReader(path);
+  // BufferedReader bfRead = new BufferedReader(fRead);) {
+  // String line;
+  // while ((line = bfRead.readLine()) != null) {
+  // System.out.println(line);
+  // }
+  //
+  // } catch (IOException e) {
+  // System.out.println("error: " + e.getMessage());
+  // }
+  //
+  // }
+}
+import java.util.List;
+import java.util.ArrayList;
+
+public class GameData {
+
+  private static final List<String> WORDS = new ArrayList<>();
+  private static final List<String> HINTS = new ArrayList<>();
+
+  // This is where all the data for the game are loaded from.
+  // dynamic adding or removing is what this code allows
+
+  // dont forget to add both words and hints
+  public void wordsLoad() {
+    WORDS.add("Java");
+    WORDS.add("Elephant");
+    WORDS.add("JhonCena");
+  }
+
+  public void hintsLoad() {
+    HINTS.add("Name of the programming language this game was written on.");
+    HINTS.add("Largest land mammal.");
+    HINTS.add("You can't see me.");
+  }
+
+  public static List<String> getWords() {
+    return new ArrayList<>(WORDS);
+  }
+
+  public static List<String> getHints() {
+    return new ArrayList<>(HINTS);
+  }
+
+}
+import java.util.Scanner;
+import java.util.Random;
+
+public class GameLogic {
+  private String playerWord;
+  private String playerHint;
+  private int chance;
+
+  Menu menu = new Menu();
+
+  public void Game() {
+    int selectedOption = menu.menuList();
+    switch (selectedOption) {
+      case 1:
+        runGame();
+        break;
+    }
+  }
+
+  public void runGame() {
+
+    Random random = new Random(System.currentTimeMillis());
+
+    int wordNumber = random.nextInt(3);
+    this.playerWord = GameData.getWords().get(wordNumber);
+    this.playerHint = GameData.getHints().get(wordNumber);
+
+    int wordLength = playerWord.length();
+
+    StringBuilder blanks = new StringBuilder();
+    for (int i = 0; i < wordLength; i++) {
+      blanks.append("_");
+    }
+
+    boolean running = true;
+
+    while (running) {
+      menu.head();
+      System.out.println("Hint for your word is: " + playerHint);
+      System.out.println(blanks);
+      System.out.printf("Enter your guess: ");
+      char userChar = scan.next().charAt(0);
+      blanks = wordChecker(playerWord, userChar, blanks);
+      ClearScreen.clearScreen(350);
+    }
+  }
+
+  static StringBuilder wordChecker(String playerWord, char userChar, StringBuilder blanks) {
+    int wordLength = playerWord.length();
+    boolean wordFound = false;
+    for (int i = 0; i < wordLength; i++) {
+      if (userChar == playerWord.charAt(i)) {
+        blanks.setCharAt(i, playerWord.charAt(i));
+        wordFound = true;
+      }
+    }
+
+    if (wordFound) {
+      System.out.println("word found!");
+    } else {
+      System.out.println("word not found");
+    }
+
+    return blanks;
+  }
+
+}
+public class InitializeData {
+
+  public InitializeData() {
+    initializeGameData();
+    setupFileSystem();
+    writeInitialData();
+  }
+
+  private void initializeGameData() {
+    // initialize words and hints data
+    GameData gameData = new GameData();
+
+    gameData.wordsLoad();
+    gameData.hintsLoad();
+  }
+
+  private void setupFileSystem() {
+    // create a folder(skips if there is already one from FileFolderManager)
+    // these might be unnecessary stuffs for hangman game but hey
+    // WE ARE HERE TO LEARN
+    FileFolderManager ffm = new FileFolderManager();
+
+    ffm.makeFolder(FileFolderManager.CURRENT_PATH, FileFolderManager.ROOT_DIR_NAME);
+
+    ffm.makeFile(FileFolderManager.ROOT_DIR_PATH, FileFolderManager.PLAYER_DATA_FILE_NAME);
+    ffm.makeFile(FileFolderManager.ROOT_DIR_PATH, FileFolderManager.WORDS_FILE_NAME);
+    ffm.makeFile(FileFolderManager.ROOT_DIR_PATH, FileFolderManager.HINTS_FILE_NAME);
+  }
+
+  public void writeInitialData() {
+    FileFolderManager ffm = new FileFolderManager();
+    // writes to File as the variable explains.
+    // the method write and read will always run which is not necessary
+    // unless the data is changed
+    // that work is for the future me
+    // the current program does not check if
+    // list of hints and word is equal
+    ffm.writeToFile(FileFolderManager.WORDS_FILE_PATH, GameData.getWords());
+    ffm.writeToFile(FileFolderManager.PLAYER_DATA_FILE_PATH, GameData.getHints());
+  }
+
+}
+import java.util.Scanner;
+
+class Main {
+  public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    InitializeData initializeData = new InitializeData();
+    ClearScreen.clearScreen();
+    GameLogic gl = new GameLogic();
+    gl.gameRun(scan);
+  }
+}
+import java.util.Scanner;
+
+public class Menu {
+  public int menuList() {
+    int usrInput = 0;
+    System.out.println("1. Start game");
+    System.out.println("2. Exit game");
+    Scanner scan = new Scanner(System.in);
+    scan.nextInt(usrInput);
+    scan.nextLine();
+    scan.close();
+    return usrInput;
+  }
+
+  public void head() {
+    System.out.println("----------------------------");
+    System.out.println("        Hangman game");
+    System.out.println("----------------------------");
+  }
+
+}
+// public class OSDetector {
+// public static final String OS = System.getProperty("os.name").toLowerCase();
+//
+// public static boolean isWindows() {
+// return OS.contains("win");
+// }
+//
+// public static boolean isLinux() {
+// return OS.contains("nux") || OS.contains("nux") || OS.contains("nux");
+// }
+//
+// }
+// take player name as input and save it in playerInfo.tx

@@ -1,3 +1,5 @@
 this shit is incomplete just like your love life 
 im starting to add too many shits 
 this is incomplete af
+gotta make it take user input in all lowercase
+
